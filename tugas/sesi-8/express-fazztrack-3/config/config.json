@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "jalil",
+    "password": "enter",
+    "database": "express-3",
+    "host": "172.30.0.2",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": 12345678,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": 12345678,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

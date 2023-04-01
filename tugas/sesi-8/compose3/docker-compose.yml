@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+  # DATABASE
+  jalil-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: db-wp
+      MYSQL_USER: jalil-wp
+      MYSQL_PASSWORD: jalil-pass
+      MYSQL_RANDOM_ROOT_PASSWORD: rootjalil
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - 'jalil-3'
+  
+  #ADMINER
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+    networks:
+      - 'jalil-3'
+ 
+  # WORDPRESS
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: jalil-db
+      WORDPRESS_DB_USER: jalil-wp
+      WORDPRESS_DB_PASSWORD: jalil-pass
+      WORDPRESS_DB_NAME: db-wp
+    volumes:
+      - ./wordpress:/var/www/html
+    networks:
+      - 'jalil-3'
+
+networks:
+  jalil-3:

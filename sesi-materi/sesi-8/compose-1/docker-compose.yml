@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  web1:
+    image: nginx:alpine
+    container_name: nginx-compose1
+    ports:
+      - "85:80"
+    volumes:
+      - ./app1:/usr/share/nginx/html
+  web2:
+    image: nginx:alpine
+    container_name: nginx-compose2
+    ports:
+      - "86:80"
+    volumes:
+      - app-2:/usr/share/nginx/html
+
+volumes:
+  app-2:

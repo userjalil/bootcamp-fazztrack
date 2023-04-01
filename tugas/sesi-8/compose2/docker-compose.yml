@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  web1:
+    build: .
+    container_name: jalil-fazztrack-1
+    ports:
+      - "85:80"
+    
+  web2:
+    image: nginx:alpine
+    container_name: jalil-fazztrack-2
+    ports:
+      - "86:80"
+    volumes:
+      - ./web2:/usr/share/nginx/html
+  
+

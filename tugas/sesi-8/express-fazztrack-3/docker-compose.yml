@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: node-express
+    build: 
+      context: .
+    ports:
+      - "3000:3000"
+    environment:
+      - username = jalil
+      - password = enter
+      - database = express-3
+      - host = db
+    depends_on:
+      - db
+    networks:
+      express-psql:
+        ipv4_address: 172.30.0.3
+    command: bash -c "npx sequelize-cli db:migrate && npm run dev" 
+ 
+  db:
+    image: postgres:14
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=jalil
+      - POSTGRES_DB=express-3
+      - POSTGRES_PASSWORD=enter
+    networks:
+      express-psql:
+        ipv4_address: 172.30.0.2
+
+networks:
+  express-psql: 
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
