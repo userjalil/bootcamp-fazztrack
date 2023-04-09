@@ -115,8 +115,10 @@ Jalankan aplikasi
 
 
 - Tambah kategori
+
 Masukkan token yang didapat ketika login
 ![kategori 1](https://github.com/userjalil/bootcamp-fazztrack/blob/main/latihan/sesi-9&10/screenshot/express-4/kategori1.png?raw=true)
+
 Tambahkan kategori
 ```json
 {
@@ -126,8 +128,10 @@ Tambahkan kategori
 ![kategori 1](https://github.com/userjalil/bootcamp-fazztrack/blob/main/latihan/sesi-9&10/screenshot/express-4/kategori2.png?raw=true)
 
 - Tambah product
+
 Masukkan token
 ![produk 1](https://github.com/userjalil/bootcamp-fazztrack/blob/main/latihan/sesi-9&10/screenshot/express-4/produk1.png?raw=true)
+
 Tambahkan produk
 ![produk 2](https://github.com/userjalil/bootcamp-fazztrack/blob/main/latihan/sesi-9&10/screenshot/express-4/produk2.png?raw=true)
 
