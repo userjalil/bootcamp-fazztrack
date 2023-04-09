@@ -1,0 +1,5 @@
+app/node_modules
+app/logs
+app/public
+app/newrelic_agent.log
+app/README.md

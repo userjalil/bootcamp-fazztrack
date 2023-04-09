@@ -1,0 +1,19 @@
+POST http://localhost:9000/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "susu",
+    "price": 10000,
+    "categori": 1
+}
+
+###
+POST http://localhost:9000/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "users 1 baru",
+    "username": "users7",
+    "email": "users1@gamil.com",
+    "password": "abcd1234"
+}

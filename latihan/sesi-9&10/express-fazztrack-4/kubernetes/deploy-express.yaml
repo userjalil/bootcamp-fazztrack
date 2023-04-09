@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express4-fazztrack
+  labels:
+    app: express-4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express-4
+  template:
+    metadata:
+      labels:
+        app: express-4
+    spec:
+      containers:
+        - name: express-4
+          image: userjalil/fazztrack-express-4:1.0
+          ports:
+            - containerPort: 9000
+          env:
+            - name: NODE_ENV
+              value: dev
+            - name: DB_USERS
+              value: jalil
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: express4-configmap
+                  key: db_host
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: express4-configmap
+                  key: db_name
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: express4-secret
+                  key: psql-pass
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: express4-configmap
+                  key: redis_host
+            - name: REDIS_PASS
+              value: redis-devops
+            - name: JWT_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: express4-secret
+                  key: jwt-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: express4-service
+spec:
+  selector:
+    app: express-4
+  type: LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30005

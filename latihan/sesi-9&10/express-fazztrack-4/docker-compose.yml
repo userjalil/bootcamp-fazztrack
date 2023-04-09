@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  redis:
+    image: redis
+    container_name: express4-redis
+    command: bash -c "redis-server --requirepass redis-devops"
+    ports:
+      - "6379:6379"
+
+  db_psql:
+    image: postgres:14-alpine
+    container_name: express4-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=jalil
+      - POSTGRES_PASSWORD=devops
+      - POSTGRES_DB=express_fazztrack_4
+
+  app:
+    image: userjalil/fazztrack-express-4:1.0
+    container_name: express4-backend
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=dev
+      - DB_USERS=jalil
+      - DB_HOST=db_psql
+      - DB_PASS=devops
+      - DB_NAME=express_fazztrack_4
+      - JWT_KEYS=secret
+      - REDIS_HOST=redis
+      - REDIS_PASS=redis-devops
+    depends_on:
+      - redis
+      - db_psql

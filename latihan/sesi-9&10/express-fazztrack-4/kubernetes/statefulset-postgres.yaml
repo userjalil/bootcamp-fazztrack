@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: express4-postgres
+  labels:
+    app: db-psql
+spec:
+  selector:
+    matchLabels:
+      app: db-psql
+  serviceName: psql-express4-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: db-psql
+    spec:
+      containers:
+        - name: db-psql
+          image: postgres:14-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: express4-secret
+                  key: psql-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: express4-secret
+                  key: psql-pass
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: express4-configmap
+                  key: db_name
+          volumeMounts:
+            - name: db-psql-volume
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: db-psql-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: express4-postgres-service
+  labels:
+    app: db-psql
+spec:
+  selector:
+    app: db-psql
+  ports:
+    - port: 5432
+      targetPort: 5432
