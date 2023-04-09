@@ -5,4 +5,3 @@ RUN npm install && \
     npm install nodemon --save-dev
 COPY ./app/. .
 EXPOSE 9000
-CMD npm run dev

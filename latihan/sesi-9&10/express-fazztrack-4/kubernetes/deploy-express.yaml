@@ -23,6 +23,7 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 9000
+          command: ["npm", "run", "dev"]
           env:
             - name: NODE_ENV
               valueFrom:

@@ -10,6 +10,18 @@ spec:
   hostPath:
     path: /data/psql
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: psql-stateful-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -49,11 +61,11 @@ spec:
                   name: express4-configmap
                   key: db_name
           volumeMounts:
-            - name: psql-volume-claim
+            - name: psql-stateful-volume-claim
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
-        name: psql-volume-claim
+        name: psql-stateful-volume-claim
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:

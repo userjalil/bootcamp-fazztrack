@@ -10,6 +10,18 @@ spec:
   hostPath:
     path: /data/redis
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-stateful-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -34,11 +46,11 @@ spec:
             - containerPort: 6379
           command: ["redis-server", "--requirepass", "redis-devops"]
           volumeMounts:
-            - name: redis-volume-claim
+            - name: redis-stateful-volume-claim
               mountPath: /data
   volumeClaimTemplates:
     - metadata:
-        name: redis-volume-claim
+        name: redis-stateful-volume-claim
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
