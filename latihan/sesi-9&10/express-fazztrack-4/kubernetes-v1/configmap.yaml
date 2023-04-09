@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: express4-configmap
+data:
+  node_env: dev
+  db_host: express4-postgres-service
+  db_name: express_fazztrack_4
+  redis_host: redis-service

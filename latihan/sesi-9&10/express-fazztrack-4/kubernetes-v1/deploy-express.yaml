@@ -17,23 +17,13 @@ spec:
       containers:
         - name: express-4
           image: userjalil/fazztrack-express-4:1.0
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
           ports:
             - containerPort: 9000
           env:
             - name: NODE_ENV
-              valueFrom:
-                configMapKeyRef:
-                  name: express4-configmap
-                  key: node_env
+              value: dev
             - name: DB_USERS
-              valueFrom:
-                secretKeyRef:
-                  name: express4-secret
-                  key: psql-user
+              value: jalil
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
@@ -55,10 +45,7 @@ spec:
                   name: express4-configmap
                   key: redis_host
             - name: REDIS_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: express4-secret
-                  key: redis-pass
+              value: redis-devops
             - name: JWT_KEYS
               valueFrom:
                 secretKeyRef:

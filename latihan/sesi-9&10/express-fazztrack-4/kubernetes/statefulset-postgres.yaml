@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: psql-stateful-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /data/psql
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -37,11 +49,11 @@ spec:
                   name: express4-configmap
                   key: db_name
           volumeMounts:
-            - name: db-psql-volume
+            - name: psql-volume-claim
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
-        name: db-psql-volume
+        name: psql-volume-claim
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
@@ -53,7 +65,7 @@ kind: Service
 metadata:
   name: express4-postgres-service
   labels:
-    app: db-psql
+    app: psql-service
 spec:
   selector:
     app: db-psql

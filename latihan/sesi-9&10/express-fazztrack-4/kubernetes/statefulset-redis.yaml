@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-stateful-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /data/redis
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: express4-redis
+  labels:
+    app: db-redis
+spec:
+  selector:
+    matchLabels:
+      app: db-redis
+  serviceName: redis-express4-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: db-redis
+    spec:
+      containers:
+        - name: db-redis
+          image: redis
+          ports:
+            - containerPort: 6379
+          command: ["redis-server", "--requirepass", "redis-devops"]
+          volumeMounts:
+            - name: redis-volume-claim
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-volume-claim
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  labels:
+    app: redis-service
+spec:
+  selector:
+    app: db-redis
+  ports:
+    - port: 6379
+      targetPort: 6379
