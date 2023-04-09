@@ -91,7 +91,7 @@ Jalankan aplikasi
 
 ❗**Pengujian dengan kubernetes, gunakan url yang telah di generate oleh minikube**
 
-\
+
 - Tambah user
 ```json
 {
